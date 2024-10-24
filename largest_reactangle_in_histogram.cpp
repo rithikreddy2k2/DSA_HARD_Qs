@@ -13,18 +13,18 @@ public:
 
         // Iterate through the heights array.
         for (int i = 0; i < heights.size(); ++i) {
-            // While the current bar is shorter than the bar at the top of the stack,
-            // this means we can no longer extend the rectangle formed by the bar on top.
+            // If the current height is less than the height of the bar at the top of the stack,
+            // this means we have reached the boundary where the rectangle can no longer expand
+            // for the bar at the top of the stack.
             while (!st.empty() && heights[i] < heights[st.top()]) {
                 int height = heights[st.top()];  // Get the height of the top bar.
                 st.pop();  // Remove this bar from the stack as we are processing it.
 
                 // Calculate the width of the rectangle:
-                // - If the stack is empty, this means the popped bar is the smallest so far,
-                //   so it can extend from index 0 to the current index `i`.
-                // - Otherwise, the width is the difference between the current index `i`
-                //   and the index of the new top of the stack (because the new top is where
-                //   the bar is shorter, meaning the rectangle starts right after this index).
+                // If the stack is empty, it means the popped bar can extend from the start (index 0) 
+                // up to the current index i.
+                // Otherwise, the width is the difference between the current index `i` and 
+                // the index of the new top of the stack (which is the first smaller bar on the left).
                 int width = st.empty() ? i : i - st.top() - 1;
 
                 // Update the maximum area if the area of the current rectangle is larger.
@@ -39,3 +39,5 @@ public:
         return maxArea;
     }
 };
+
+
